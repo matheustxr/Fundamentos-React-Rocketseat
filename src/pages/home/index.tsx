@@ -2,14 +2,24 @@ import React, { useEffect, useState } from 'react'
 
 import "./style.css";
 
-import {Card} from '../../componentes/card'
+import {Card, CardProps} from '../../componentes/card'
+
+type APIResponse = {
+  name: string;
+  avatar_url: string;
+}
+
+type User = {
+  name: string;
+  avatar: string;
+}
 
 export function Home() {
 
   //ESTADOS 
   const [studentName, setStudentName] = useState(''); // primeiro onde eu vou guardar o estado da variavel e dps a função que atualiza o estado
-  const [students, setStudents] = useState([]);
-  const [user, setUser] = useState({name: '', avatar: ''}) ;
+  const [students, setStudents] = useState<CardProps[]>([]);
+  const [user, setUser] = useState <User> ({} as User) ;
 
   function handleAddStudent(){
     const newStudent = {
@@ -29,7 +39,7 @@ export function Home() {
     
     async function fetchData(){
       const response = await fetch('https://api.github.com/users/matheustxr')
-      const data = await response.json()
+      const data = await response.json() as APIResponse
       console.log("DADOS ===> ", data )
 
       setUser({
